@@ -143,5 +143,7 @@ async.eachLimit(arr,2,function(item, callback) {
 // 42.248> 1.6 enter: Jack
 // 42.248> 1.6 enter: Mike
 // 42.352> 1.6 handle: Mike
+// 42.352> 1.6 enter: Freewind 
 // 42.462> 1.6 handle: Jack
 // 42.462> 1.6 err: myerr
+// 42.463> 1.6 handle: Freewind
