@@ -105,7 +105,7 @@ async.eachSeries(arr,function(item, callback) {
 // 42.460> 1.4 err: myerr
 
 /**
- * 分批执行，第二个参数是每一批的个数。每一批内并行执行，但批与批之间按顺序执行。
+ * 分批执行，第二个参数是同步执行的上限个数。当有任务完成时，就拿入新任务补充。
  */
 async.eachLimit(arr, 2, function(item, callback) {
     log('1.5 enter: ' + item.name);
@@ -118,14 +118,14 @@ async.eachLimit(arr, 2, function(item, callback) {
 });
 // 42.247> 1.5 enter: Jack
 // 42.248> 1.5 enter: Mike
-// 42.351> 1.5 handle: Mike
-// 42.352> 1.5 enter: Freewind
+// 42.351> 1.5 handle: Mike             /* 一个任务完成
+// 42.352> 1.5 enter: Freewind			/* 立即加入一个新的任务
 // 42.461> 1.5 handle: Jack
 // 42.664> 1.5 handle: Freewind
 // 42.664> 1.5 err: undefined
 
 /**
- * 如果中途出错，错误将马上传给最终的callback。同一批中的未执行完的任务还将继续执行，但下一批及以后的不再执行。
+ * 如果中途出错，错误将马上传给最终的callback。当有任务完成时，依然拿入新任务补充。
  */
 async.eachLimit(arr,2,function(item, callback) {
     log('1.6 enter: ' +item.name);
@@ -133,7 +133,9 @@ async.eachLimit(arr,2,function(item, callback) {
         log('1.6 handle: ' + item.name);
         if(item.name==='Jack') {
             callback('myerr');
-        }
+        }else{
+			callback();
+		}
     }, item.delay);
 }, function(err) {
     log('1.6 err: ' + err);
