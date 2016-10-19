@@ -51,3 +51,9 @@ https://github.com/caolan/async
 28. 修改utils.js实例和注释
 
 
+Change Log
+===================================
+
+参考async@2.1.2版本的规范
+
+1.filter_reject.js 修正回调函数, 如:callback(null, test)
